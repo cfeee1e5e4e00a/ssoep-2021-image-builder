@@ -1,0 +1,10 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+
+docker build --tag uni_img .
+
+rm img.tar.gz
+docker container rm uni_c
+docker container create --name uni_c uni_img /bin/bash
+docker export --output=img.tar.gz uni_c
+docker container rm uni_c

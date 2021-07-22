@@ -1,0 +1,44 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# The following guidelines are specific to BZR, GIT, HG and SVN packages.
+# Other VCS sources are not natively supported by makepkg yet.
+
+# Maintainer: Your Name <youremail@domain.com>
+pkgname=unior # '-bzr', '-git', '-hg' or '-svn'
+pkgrel=1
+pkgver='0.1'
+pkgdesc="Unior daemon"
+arch=('any')
+# url="https://github.com/intel-iot-devkit/tinyb"
+license=('PROPRIETARY')
+groups=()
+depends=('bluez' 'tinyb-git')
+makedepends=('git' 'cmake') # 'bzr', 'git', 'mercurial' or 'subversion'
+provides=("${pkgname}")
+conflicts=("${pkgname}")
+replaces=()
+backup=()
+options=()
+install=
+source=('git+ssh://git@github.com/cfeee1e5e4e00a/ssoep-2021-unior-daemon.git' 'ru.leadpogrommer.Breather.conf' 'cppuni.service')
+noextract=()
+md5sums=('SKIP' 'SKIP' 'SKIP')
+
+
+build() {
+	cd "$srcdir/ssoep-2021-unior-daemon"
+	cmake .
+	make
+}
+
+
+package() {
+    cd $srcdir
+	install -D ru.leadpogrommer.Breather.conf "$pkgdir/usr/share/dbus-1/system.d/ru.leadpogrommer.Breather.conf"
+	install -D cppuni.service "$pkgdir/usr/lib/systemd/system/cppuni.service"
+	cd "ssoep-2021-unior-daemon"
+	install -D cppuni "$pkgdir/usr/bin/cppuni"
+}

@@ -1,0 +1,6 @@
+#!/bin/bash
+cd "$(dirname "$0")"
+
+# wget https://downloads.raspberrypi.org/raspios_lite_armhf/boot.tar.xz
+# wget https://downloads.raspberrypi.org/raspios_lite_armhf/root.tar.xz
+wget http://de4.mirror.archlinuxarm.org/os/ArchLinuxARM-rpi-2-latest.tar.gz -O alarm.tar.gz

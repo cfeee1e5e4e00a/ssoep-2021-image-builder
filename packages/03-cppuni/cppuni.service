@@ -1,0 +1,13 @@
+[Unit]
+Description=Unior daemon
+After=bluetooth.target
+
+[Service]
+Type=dbus
+BusName=ru.leadpogrommer.Breather
+Restart=always
+ExecStart=/usr/bin/cppuni
+User=root
+
+[Install]
+WantedBy=multi-user.target
