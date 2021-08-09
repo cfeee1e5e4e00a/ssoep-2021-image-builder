@@ -22,6 +22,7 @@ FROM scratch
 # RUN chown -R pi:pi /home/pi/packages && su -l -c /home/pi/packages/install pi
 
 ADD alarm.tar.gz /
+ENV MAKEFLAGS="-j12"
 RUN pacman-key --init && pacman-key --populate archlinuxarm
 RUN sed -i '1iServer = http://de.mirror.archlinuxarm.org/$arch/$repo' /etc/pacman.d/mirrorlist && pacman -Syyu --noconfirm && pacman -S --noconfirm base-devel mc htop zsh networkmanager python wget sudo git python-pip python-gobject
 RUN sed -i '5iMAKEFLAGS="j13"' /etc/makepkg.conf 
@@ -35,7 +36,7 @@ ADD repo-key /home/pi/.ssh/id_rsa
 RUN chown -R pi:pi /home/pi/.ssh && su -l -c 'touch ~/.ssh/known_hosts && ssh-keyscan github.com >> ~/.ssh/known_hosts' pi
 
 ADD packages /home/pi/packages
-RUN chown -R pi:pi /home/pi/packages && su -l -c /home/pi/packages/install pi
+RUN pacman -Sy && chown -R pi:pi /home/pi/packages && su -l -c /home/pi/packages/install pi
 RUN systemctl enable cppuni && systemctl enable bluetooth && rm -rvf /home/pi/.ssh $$ rm /.dockerenv
 RUN ln -sf /usr/share/zoneinfo/Asia/Novosibirsk /etc/localtime
-RUN sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen && echo "LANG=en_US.UTF-8" > /etc/locale.conf && sed -i '$ s/$/ audit=0/' /boot/cmdline.txt
+RUN sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen && echo "LANG=en_US.UTF-8" > /etc/locale.conf && sed -i '$ s/$/ audit=0/' /boot/cmdline.txt && sed -i -e '$ahdmi_force_hotplug=1\ndtparam=krnbt=on' /boot/config.txt

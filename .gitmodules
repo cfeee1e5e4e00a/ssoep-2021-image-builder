@@ -1,0 +1,3 @@
+[submodule "packages/04-bluetooth"]
+	path = packages/04-bluetooth
+	url = https://github.com/RoEdAl/alarm-bluetooth-raspberrypi.git

@@ -4,7 +4,31 @@ cd "$(dirname "$0")"
 docker build --tag uni_img .
 
 rm img.tar.gz
+rm img.img
 docker container rm uni_c
 docker container create --name uni_c uni_img /bin/bash
 docker export --output=img.tar.gz uni_c
 docker container rm uni_c
+
+# echo "Creating image"
+# qemu-img create -f raw img.img 4G
+# echo "Running guestfish"
+# LIBGUESTFS_PATH=/usr/lib/guestfs guestfish --progress-bars <<EOF
+# add img.img blocksize:512
+# run
+# part_init /dev/sda mbr
+# part_add /dev/sda p 1 819200
+# part_add /dev/sda p 819201 8388608
+# mkfs vfat /dev/sda1
+# mkfs ext4 /dev/sda2
+
+
+# mount /dev/sda2 /
+# mkdir /boot
+# mount /dev/sda1 /boot
+
+# tar-in img.tar.gz / compress:gzip xattrs:true selinux:true acls:true
+
+# exit
+# EOF
+
