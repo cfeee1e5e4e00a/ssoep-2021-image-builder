@@ -29,7 +29,7 @@ RUN sed -i '5iMAKEFLAGS="j13"' /etc/makepkg.conf
 RUN useradd -m -U -G wheel pi && echo $'root:root\npi:pi' | chpasswd && chsh -s /bin/zsh pi && su -l -c ' wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && sh install.sh --unattended && sed -i "s/robbyrussell/dstufft/" ~/.zshrc' pi
 RUN sed -i '1i%wheel ALL=(ALL) NOPASSWD: ALL' /etc/sudoers
 RUN systemctl enable sshd && systemctl enable NetworkManager
-RUN CFLAGS=-fcommon pip install rpi_ws281x adafruit-circuitpython-neopixel dbus-python RPi.GPIO
+RUN CFLAGS=-fcommon pip install rpi_ws281x adafruit-circuitpython-neopixel RPi.GPIO
 # todo: fix bluetooth
 
 ADD repo-key /home/pi/.ssh/id_rsa

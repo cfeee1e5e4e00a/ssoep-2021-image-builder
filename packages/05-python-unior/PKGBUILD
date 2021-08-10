@@ -1,0 +1,32 @@
+pkgname=pythonunior
+pkgrel=1
+pkgver='0.0.1'
+pkgdesc="Unior python"
+arch=('any')
+# url="https://github.com/intel-iot-devkit/tinyb"
+license=('WTFPL')
+groups=()
+depends=('python' 'dbus-python')
+makedepends=('git' 'python-build')
+provides=("${pkgname}")
+conflicts=("${pkgname}")
+replaces=()
+backup=()
+options=()
+install=
+source=('git+ssh://git@github.com/cfeee1e5e4e00a/ssoep-2021-unior-library.git')
+noextract=()
+md5sums=('SKIP')
+
+
+build() {
+	cd "$srcdir/ssoep-2021-unior-library"
+	python -m build
+	
+}
+
+
+package() {
+    cd "$srcdir/ssoep-2021-unior-library"
+	PIP_CONFIG_FILE=/dev/null pip install --isolated --root="$pkgdir" --ignore-installed --no-deps dist/*.whl
+}

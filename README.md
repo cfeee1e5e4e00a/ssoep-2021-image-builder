@@ -10,4 +10,4 @@
 1. PROFIT 
 
 ## Known issues
-Bluetooth not working (some packages from AUR must be installed)
+For some reason cppuni crashes when it is launched for first time
